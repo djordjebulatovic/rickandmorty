@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.input {
+  width: 150px;
+  height: 20px;
+}
+
+.wrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+  @media screen and (min-width: 486px) {
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: unset;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+
+}

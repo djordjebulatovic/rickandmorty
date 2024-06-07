@@ -1,0 +1,62 @@
+@use '/src/styles/mixins.scss';
+
+.mobileMenu {
+    @include mixins.color;
+    position: 'fixed';
+    width: '36px';
+    height: '30px';
+    left: '36px';
+    top: '36px';
+}
+
+.burger {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  z-index: 100;
+}
+
+.navbar {
+  @include mixins.color;
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.button-wrapper {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+@media screen and (min-width: 486px) {
+
+  .logo {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+  }
+
+  .navbar {
+    position: unset;
+    height: unset;
+    right: unset;
+    margin-bottom: 20px;
+}
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-direction: row-reverse;
+    gap: 20px;
+    padding: unset;
+  }
+
+
+}
+

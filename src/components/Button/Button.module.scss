@@ -1,0 +1,9 @@
+@use '/src/styles/mixins.scss';
+
+
+.button {
+    @include mixins.color;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: white;
+}

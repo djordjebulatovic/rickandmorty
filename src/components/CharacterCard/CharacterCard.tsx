@@ -8,6 +8,9 @@ interface ICharcterCardProps {
   clickEvent: any;
   handleEdit?: any;
   favorites?: boolean;
+  // Todo: nemoj da zrtvujes razumljivost/citljivost koda da bi ustedeo par karaktera pri namingu funkcije, 
+  // funkcija mora da se zove tako da je bez razmisljanja jasno sta radi, a koliko ce dugacak naziv funkcije biti zavisi od use case-a,
+  // skroz je legit da funkcija ima 4-5-6 reci ako je toliko neophodno da bi sve bilo jasno
   unf?: any;
 }
 

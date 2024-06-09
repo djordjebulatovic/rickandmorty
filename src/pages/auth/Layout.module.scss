@@ -2,6 +2,8 @@
 
 .mobileMenu {
     @include mixins.color;
+
+    // Todo: ovo ne treba da bude izmedju ' '
     position: 'fixed';
     width: '36px';
     height: '30px';

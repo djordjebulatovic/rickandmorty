@@ -1,3 +1,7 @@
+// Todo: u komponentama ( i drugim js fajlovima ) importe gledamo da odvojimo radi preglednosti,
+// prvo idu importi iz node_modulsa ( react, react-router-dom etc )
+// zatim red razmaka, pa relative imports, i onda red razmaka pa css
+
 import styles from "./Login.module.scss";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function Login() {
+  // Todo: Pogledaj u ANTD Form komponentu pa uradi login stranicu uz pomoc nje, to je neki standard za vecinu formi posto resava gomilu stvari
+  // kao sto su validacija, stilovi, bindovanje statea i slicno, probaj primeni funkcionalnosti kao sto su required fields, regex validations
   const [user, setUser] = useState({name: '', password: ''});
   const navigate = useNavigate();
   const signIn = useSignIn();
@@ -40,6 +46,7 @@ function Login() {
       <div className={styles.wrapper}>
         <form onSubmit={handleSubmit}>
           <div>
+            {/* Todo: koristi Ant Input i button komponente, obrati paznju kako se koriste uz formu da bi sve to radilo */}
             <input
               className={styles.input}
               placeholder="Username"
@@ -63,6 +70,7 @@ function Login() {
           </div>
         </form>
       </div>
+      {/* Todo: ovo je neka globalna komponenta, trebalo bi da stoji na u app.ts npr, kako ne bi morao da je pozivas na svakoj stranici na kojoj je toast container potreban   */}
       <ToastContainer />
     </div>
   );

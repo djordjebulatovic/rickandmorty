@@ -9,7 +9,7 @@ interface ICharcterProps {
   closeModal: any;
   favorite?: boolean;
 }
-
+// Todo: uvek se antd koristi za renderovanje modala, mnogo olaksava sve 
 const Character: FC<ICharcterProps> = ({
   character,
   closeModal,

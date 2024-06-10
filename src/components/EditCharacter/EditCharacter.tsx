@@ -18,16 +18,22 @@ const EditCharacter: FC<IEditCharacterProps> = ({
 }) => {
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>("horizontal");
+  // Todo: zasto bi menjao layout forme na onValuesChange? 
   const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
     setFormLayout(layout);
   };
   const lista = window.localStorage.getItem("favorites");
 
+  // Todo: nije e nego values, vidi kako da istipiziras formu da bi znala sta ce joj biti vrednosti onFinish propa
+  // takodje handleStorage je pogresan naming 
   function handleStorage(e) {
     const char = JSON.parse(lista).find((ch) => {
       return ch.id === character.id;
     });
 
+    // Todo: ovo su neke stvari koje bi isle u chracters.service.ts a onda ova komponenta samo poziva funkciju iz tog servisa da bi dobila rezultat
+    // time zelimo da uprostimo samu komponentu i da logiku sakrijemo iza funkcije, uz dobar naming mnogo je lakse razumeti sta se desava u komponenti 
+    // i tako mnogo manje vremena trosimo na tumacenje koda
     JSON.parse(lista).find((ch) => {
       if (ch.id === character.id) {
         if (e.name != undefined) {
@@ -64,6 +70,7 @@ const EditCharacter: FC<IEditCharacterProps> = ({
         }
       : null;
 
+  // Todo: iskoristi antd modal komponentu za prikaz stvari u modal window-u
   return (
     <div className={styles.container}>
       <button className={styles.close} onClick={closeEditModal}>

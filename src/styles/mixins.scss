@@ -1,5 +1,8 @@
+// Todo: super je ovo, ja cesto na vecini projekata imam par scss partial fajlova,
+// greska je samo sto fajl nije navan _mixins.scss , more info: https://sass-lang.com/guide/#partials
+// uglavnom sve sto je global i specificno izvucem u partiale, kao npr _typography.scss, _breakpoints.scss, _colors.scss, _animations.scss itd itd
+//
 
-@mixin color{
-    background-color : greenyellow;
+@mixin color {
+  background-color: greenyellow;
 }
-

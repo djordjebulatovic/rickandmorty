@@ -1,9 +1,8 @@
-@use '/src/styles/mixins.scss';
-
+@use "/src/styles/_mixins.scss";
 
 .button {
-    @include mixins.color;
-    padding: 10px 20px;
-    font-size: 20px;
-    color: white;
+  @include mixins.color;
+  padding: 10px 20px;
+  font-size: 20px;
+  color: white;
 }

@@ -1,12 +1,18 @@
 import { useState } from "react";
-import styles from "./FavoritesList.module.scss";
+import { FC } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import EditCharacter from "../EditCharacter/EditCharacter";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import Character from "../Character/Character";
-import CharacterType from "../../types/types";
-import { FC } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import EditCharacter from "../EditCharacter/EditCharacter";
+import { CharacterType } from "../../types/types";
+import {
+  getLocalStorage,
+  setLocalStorage,
+} from "../Character/characters.service";
+
+import styles from "./FavoritesList.module.scss";
 
 interface IFavoritesListProps {
   characters: Array<CharacterType>;
@@ -21,12 +27,10 @@ const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
     useState<Array<CharacterType>>(characters);
 
   function unfavorite(obj) {
-    var list = JSON.parse(window.localStorage.getItem("favorites")).filter(
-      function (el) {
-        return el.id !== obj.id;
-      }
-    );
-    window.localStorage.setItem("favorites", JSON.stringify(list));
+    var list = getLocalStorage().filter(function (el) {
+      return el.id !== obj.id;
+    });
+    setLocalStorage(list);
     setListCharacters(list);
     toast.success("Character removed from favorites", {
       position: "top-center",
@@ -41,7 +45,6 @@ const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
   function handleEditCharacterClick(i: number) {
     setShowEdit(true);
     setCharacter(characters[i]);
-
   }
 
   return (
@@ -53,25 +56,29 @@ const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
             key={i}
             character={character}
             favorites={true}
-            unf={() => unfavorite(character)}
+            unfavoriteCharacter={() => unfavorite(character)}
             handleEdit={() => handleEditCharacterClick(i)}
           ></CharacterCard>
         ))}
-        {show && character && (
+        {character && (
           <Character
             closeModal={() => setShow(false)}
             character={character}
             favorite={true}
+            show={show}
           ></Character>
         )}
-        {showEdit && character && (
+        {character && (
           <EditCharacter
             character={character}
-            closeEditModal={() => {setShowEdit(false);reRend();}}
+            show={showEdit}
+            closeEditModal={() => {
+              setShowEdit(false);
+              reRend();
+            }}
           ></EditCharacter>
         )}
       </div>
-      <ToastContainer />
     </div>
   );
 };

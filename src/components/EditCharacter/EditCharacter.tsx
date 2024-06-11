@@ -1,60 +1,59 @@
-import { FC, useState } from "react";
-import styles from "./EditCharacter.module.scss";
-import CharacterType from "../../types/types";
-import { Button, Form, Input, Select } from "antd";
-import { ToastContainer, toast } from "react-toastify";
+import { FC } from "react";
+import { CharacterType } from "../../types/types";
+import { Button, Form, Input, Modal, Select } from "antd";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type LayoutType = Parameters<typeof Form>[0]["layout"];
+import {
+  getLocalStorage,
+  setLocalStorage,
+} from "../Character/characters.service";
+
+import styles from "./EditCharacter.module.scss";
 
 interface IEditCharacterProps {
   character: CharacterType;
   closeEditModal: any;
+  show: boolean;
 }
 
 const EditCharacter: FC<IEditCharacterProps> = ({
   character,
   closeEditModal,
+  show,
 }) => {
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState<LayoutType>("horizontal");
-  // Todo: zasto bi menjao layout forme na onValuesChange? 
-  const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
-    setFormLayout(layout);
-  };
-  const lista = window.localStorage.getItem("favorites");
+  const lista = getLocalStorage();
 
   // Todo: nije e nego values, vidi kako da istipiziras formu da bi znala sta ce joj biti vrednosti onFinish propa
-  // takodje handleStorage je pogresan naming 
-  function handleStorage(e) {
-    const char = JSON.parse(lista).find((ch) => {
+  // takodje handleStorage je pogresan naming
+  function submitEdit(value) {
+    const char = lista.find((ch) => {
       return ch.id === character.id;
     });
 
     // Todo: ovo su neke stvari koje bi isle u chracters.service.ts a onda ova komponenta samo poziva funkciju iz tog servisa da bi dobila rezultat
-    // time zelimo da uprostimo samu komponentu i da logiku sakrijemo iza funkcije, uz dobar naming mnogo je lakse razumeti sta se desava u komponenti 
+    // time zelimo da uprostimo samu komponentu i da logiku sakrijemo iza funkcije, uz dobar naming mnogo je lakse razumeti sta se desava u komponenti
     // i tako mnogo manje vremena trosimo na tumacenje koda
-    JSON.parse(lista).find((ch) => {
+    lista.find((ch) => {
       if (ch.id === character.id) {
-        if (e.name != undefined) {
-          char.name = e.name;
+        if (value.name !== undefined) {
+          char.name = value.name;
         }
-        if (e.species != undefined) {
-          char.species = e.species;
+        if (value.species !== undefined) {
+          char.species = value.species;
         }
-        if (e.gender != undefined) {
-          char.gender = e.gender;
+        if (value.gender !== undefined) {
+          char.gender = value.gender;
         }
-        if (e.status != undefined) {
-          char.status = e.status;
+        if (value.status !== undefined) {
+          char.status = value.status;
         }
       }
 
-  
-      const index = JSON.parse(lista).findIndex((c) => c.id === char.id);
-      const finalList = JSON.parse(lista);
-      finalList[index] = char;
-      window.localStorage.setItem("favorites", JSON.stringify(finalList));
+      const index = lista.findIndex((c) => c.id === char.id);
+      lista[index] = char;
+      setLocalStorage(lista);
     });
     toast.success("Edited character", {
       position: "top-center",
@@ -62,28 +61,15 @@ const EditCharacter: FC<IEditCharacterProps> = ({
     closeEditModal();
   }
 
-  const formItemLayout =
-    formLayout === "horizontal"
-      ? {
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }
-      : null;
-
-  // Todo: iskoristi antd modal komponentu za prikaz stvari u modal window-u
   return (
-    <div className={styles.container}>
-      <button className={styles.close} onClick={closeEditModal}>
-        X
-      </button>
-      <Form
-        {...formItemLayout}
-        layout={formLayout}
-        form={form}
-        onFinish={handleStorage}
-        initialValues={{ layout: formLayout }}
-        onValuesChange={onFormLayoutChange}
-      >
+    <Modal
+      className={styles.container}
+      title={"Edit " + character.name}
+      open={show}
+      onCancel={() => closeEditModal()}
+      footer={null}
+    >
+      <Form form={form} onFinish={submitEdit}>
         <Form.Item name={"name"} label="Name">
           <Input placeholder={character.name} />
         </Form.Item>
@@ -111,8 +97,7 @@ const EditCharacter: FC<IEditCharacterProps> = ({
           </Button>
         </Form.Item>
       </Form>
-      {/* <ToastContainer /> */}
-    </div>
+    </Modal>
   );
 };
 

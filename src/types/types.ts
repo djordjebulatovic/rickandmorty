@@ -2,7 +2,7 @@
 // tipovi treba da budu grupisani uz biznis logiku i odvojeni po modulima,
 // proci cemo zajedno folder strukturu na projektu pa cu dodatno pojasniti na sta mislim
 
-interface CharacterType {
+export interface CharacterType {
   id: number;
   name: string;
   status: string;
@@ -28,4 +28,3 @@ interface CharacterType {
 // default export intellisense cesto ne razaznaje, a i moze vise ljudi jednu komponentu da importuju po celom projektu i da je nazivaju kako im se cefne
 // dok named exports moramo svi importovati sa istim nazivom, a u slucaju da naziv nije odgovarajuci u nekom fajlu, importu mozemo da damo alias import { smthng as smthnElse } from '...;
 // more info https://medium.com/@heshramsis/understanding-the-difference-between-export-default-and-export-with-named-exports-in-javascript-f0569c221a3
-export default CharacterType;

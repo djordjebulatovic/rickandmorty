@@ -1,4 +1,4 @@
-// Todo: Za ovako neke jednostavne layoute komponenti, vidi iskoristi antd Row i Col komponente, 
+// Todo: Za ovako neke jednostavne layoute komponenti, vidi iskoristi antd Row i Col komponente,
 // https://ant.design/components/grid dosta olaksava implementaciju grid sistema
 
 .header {
@@ -27,21 +27,24 @@
   gap: 20px;
 }
 
-  @media screen and (min-width: 486px) {
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
 
-    .header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      gap: unset;
-    }
+@media screen and (min-width: 486px) {
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: unset;
+  }
 
-    .wrapper {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 }

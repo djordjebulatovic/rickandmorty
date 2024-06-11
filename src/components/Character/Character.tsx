@@ -1,26 +1,32 @@
 import { FC } from "react";
-import CharacterType from "../../types/types";
+import { CharacterType } from "../../types/types";
 import styles from "./Character.module.scss";
 import Button from "../Button/Button";
+import { Modal } from "antd";
 
 interface ICharcterProps {
   character: CharacterType;
+  show: boolean;
   handleStorage?: any;
   closeModal: any;
   favorite?: boolean;
 }
-// Todo: uvek se antd koristi za renderovanje modala, mnogo olaksava sve 
+
 const Character: FC<ICharcterProps> = ({
   character,
   closeModal,
   handleStorage,
   favorite,
+  show,
 }) => {
   return (
-    <div className={styles.container}>
-      <button className={styles.close} onClick={closeModal}>
-        X
-      </button>
+    <Modal
+      className={styles.container}
+      title={+character.name}
+      open={show}
+      onCancel={() => closeModal()}
+      footer={null}
+    >
       <div className={styles.wrapper}>
         <img src={character.image}></img>
       </div>
@@ -35,10 +41,12 @@ const Character: FC<ICharcterProps> = ({
       </div>
       {!favorite && (
         <div className={styles["button-wrapper"]}>
-          <Button onClick={handleStorage}>Favorites</Button>
+          <Button testId="3" onClick={handleStorage}>
+            Favorites
+          </Button>
         </div>
       )}
-    </div>
+    </Modal>
   );
 };
 

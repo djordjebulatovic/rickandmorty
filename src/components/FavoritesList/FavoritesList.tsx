@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import EditCharacter from "../EditCharacter/EditCharacter";
 import CharacterCard from "../CharacterCard/CharacterCard";
-import Character from "../Character/Character";
+import { CharacterModal } from "../Character/CharacterModal";
 import { CharacterType } from "../../types/types";
 import {
   getLocalStorage,
@@ -13,15 +13,20 @@ import {
 } from "../Character/characters.service";
 
 import styles from "./FavoritesList.module.scss";
+import { modalStore } from "../../modules/modals/modal.store";
+import { ModalsEnum } from "../../modules/modals/modal.constants";
 
 interface IFavoritesListProps {
   characters: Array<CharacterType>;
-  reRend: any;
+  getCharactersFromStorage: () => void;
 }
 
-const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
+const FavoritesList: FC<IFavoritesListProps> = ({
+  characters,
+  getCharactersFromStorage,
+}) => {
   const [character, setCharacter] = useState<CharacterType>();
-  const [show, setShow] = useState<boolean>(false);
+
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const [listCharacters, setListCharacters] =
     useState<Array<CharacterType>>(characters);
@@ -38,7 +43,7 @@ const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
   }
 
   function handleCharacterClick(i: number) {
-    setShow(true);
+    modalStore.setOpenModal(ModalsEnum.CHARACTER);
     setCharacter(characters[i]);
   }
 
@@ -50,6 +55,7 @@ const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        <CharacterModal favorite={true} storageCharacter={character} />
         {listCharacters.map((character, i) => (
           <CharacterCard
             clickEvent={() => handleCharacterClick(i)}
@@ -61,20 +67,12 @@ const FavoritesList: FC<IFavoritesListProps> = ({ characters, reRend }) => {
           ></CharacterCard>
         ))}
         {character && (
-          <Character
-            closeModal={() => setShow(false)}
-            character={character}
-            favorite={true}
-            show={show}
-          ></Character>
-        )}
-        {character && (
           <EditCharacter
             character={character}
             show={showEdit}
             closeEditModal={() => {
               setShowEdit(false);
-              reRend();
+              getCharactersFromStorage();
             }}
           ></EditCharacter>
         )}

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import styles from "./Button.module.scss";
+
 import { Button as ANTButton, ButtonProps as ANTButtonProps } from "antd";
 
 export interface IButtonProps extends ANTButtonProps {

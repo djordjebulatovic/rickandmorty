@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { FC } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import EditCharacter from "../EditCharacter/EditCharacter";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import { CharacterModal } from "../Character/CharacterModal";
 import { CharacterType } from "../../types/types";
-import {
-  getLocalStorage,
-  setLocalStorage,
-} from "../Character/characters.service";
-
-import styles from "./FavoritesList.module.scss";
 import { modalStore } from "../../modules/modals/modal.store";
 import { ModalsEnum } from "../../modules/modals/modal.constants";
+import { charactersService } from "../../modules/characters/characters.service";
 
+import styles from "./FavoritesList.module.scss";
+import { toast } from "react-toastify";
+import { ICharacter } from "../../modules/characters/characters.types";
 interface IFavoritesListProps {
   characters: Array<CharacterType>;
   getCharactersFromStorage: () => void;
@@ -26,16 +22,13 @@ const FavoritesList: FC<IFavoritesListProps> = ({
   getCharactersFromStorage,
 }) => {
   const [character, setCharacter] = useState<CharacterType>();
-
   const [showEdit, setShowEdit] = useState<boolean>(false);
-  const [listCharacters, setListCharacters] =
-    useState<Array<CharacterType>>(characters);
+  const [listCharacters, setListCharacters] = useState<ICharacter[]>(
+    charactersService.getCharactersLocalStorage()
+  );
 
-  function unfavorite(obj) {
-    var list = getLocalStorage().filter(function (el) {
-      return el.id !== obj.id;
-    });
-    setLocalStorage(list);
+  function unfavorite(character: ICharacter) {
+    const list = charactersService.unfavoriteCharacter(character);
     setListCharacters(list);
     toast.success("Character removed from favorites", {
       position: "top-center",

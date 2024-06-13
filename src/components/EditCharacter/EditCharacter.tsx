@@ -4,12 +4,7 @@ import { Button, Form, Input, Modal, Select } from "antd";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-  getLocalStorage,
-  setLocalStorage,
-} from "../Character/characters.service";
-
-import styles from "./EditCharacter.module.scss";
+import { charactersService } from "../../modules/characters/characters.service";
 
 interface IEditCharacterProps {
   character: CharacterType;
@@ -23,38 +18,9 @@ const EditCharacter: FC<IEditCharacterProps> = ({
   show,
 }) => {
   const [form] = Form.useForm();
-  const lista = getLocalStorage();
 
-  // Todo: nije e nego values, vidi kako da istipiziras formu da bi znala sta ce joj biti vrednosti onFinish propa
-  // takodje handleStorage je pogresan naming
   function submitEdit(value) {
-    const char = lista.find((ch) => {
-      return ch.id === character.id;
-    });
-
-    // Todo: ovo su neke stvari koje bi isle u chracters.service.ts a onda ova komponenta samo poziva funkciju iz tog servisa da bi dobila rezultat
-    // time zelimo da uprostimo samu komponentu i da logiku sakrijemo iza funkcije, uz dobar naming mnogo je lakse razumeti sta se desava u komponenti
-    // i tako mnogo manje vremena trosimo na tumacenje koda
-    lista.find((ch) => {
-      if (ch.id === character.id) {
-        if (value.name !== undefined) {
-          char.name = value.name;
-        }
-        if (value.species !== undefined) {
-          char.species = value.species;
-        }
-        if (value.gender !== undefined) {
-          char.gender = value.gender;
-        }
-        if (value.status !== undefined) {
-          char.status = value.status;
-        }
-      }
-
-      const index = lista.findIndex((c) => c.id === char.id);
-      lista[index] = char;
-      setLocalStorage(lista);
-    });
+    charactersService.editCharacterInLocalStorage(character, value);
     toast.success("Edited character", {
       position: "top-center",
     });
@@ -63,7 +29,6 @@ const EditCharacter: FC<IEditCharacterProps> = ({
 
   return (
     <Modal
-      className={styles.container}
       title={"Edit " + character.name}
       open={show}
       onCancel={() => closeEditModal()}

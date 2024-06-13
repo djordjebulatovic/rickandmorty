@@ -6,13 +6,12 @@ import { Home } from "../pages/Home/Home";
 import { RouteKeysEnum } from "./routes.constants";
 import Favorites from "../pages/Favorites/Favorites";
 import Layout from "../components/Layout/Layout";
+import { Locations } from "../pages/Locations/Locations";
 
 export const RoutesList = () => {
   const isAuth = useIsAuthenticated();
 
   const fallbackRedirect = isAuth ? "/" : RouteKeysEnum.LOGIN;
-
-  console.log(isAuth);
 
   return (
     <Routes>
@@ -20,6 +19,7 @@ export const RoutesList = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path={RouteKeysEnum.FAVORITES} element={<Favorites />} />
+        <Route path={RouteKeysEnum.LOCATIONS} element={<Locations />} />
         <Route path="*" element={<Navigate to={fallbackRedirect} />} />
       </Route>
     </Routes>

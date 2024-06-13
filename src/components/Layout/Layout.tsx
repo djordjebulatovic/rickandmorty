@@ -67,6 +67,12 @@ const Layout = () => {
                 Favorites
               </Button>
             )}
+            <Button
+              testId="locations-btn"
+              onClick={() => navigate("/locations")}
+            >
+              Locations
+            </Button>
             <div className={styles.logo}>LOGO</div>
           </div>
         )}

@@ -12,6 +12,7 @@ const store = createStore({
 });
 
 function App() {
+  // window.localStorage.setItem("favorites", JSON.stringify([]));
 
   return (
     <AuthProvider store={store}>
